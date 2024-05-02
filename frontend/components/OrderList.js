@@ -1,6 +1,7 @@
 import React from 'react'
 import { useGetOrdersQuery } from '../state/pizzaApi'
-export default function OrderList() {
+
+export default function OrderList () {
   const { data: orders } = useGetOrdersQuery()
   
   return (
@@ -8,11 +9,17 @@ export default function OrderList() {
       <h2>Pizza Orders</h2>
       <ol>
         {
-          orders?.map((order) => {
+           orders && orders.map((order) => {
             return (
               <li key={order.id}>
                 <div>
-                  {`${order.customer} ordered a size ${order.size} with ${order.toppings.length} ${order.toppings.length === 1 ? "topping" : 'toppings'}`}
+                {`${order.customer} ordered a size ${order.size} with ${
+                    Array.isArray(order.toppings) ? order.toppings.length : 'no'
+                  } ${
+                    Array.isArray(order.toppings) && order.toppings.length === 1
+                      ? "topping"
+                      : "toppings"
+                  }`}
                 </div>
               </li>
             )
