@@ -20,7 +20,15 @@ const reducer = (state, action) => {
       return { ...state, [name]: value }
     }
     case RESET_FORM:
-      return initialFormState
+      return {
+        fullName: '',
+        size: '',
+        '1': false,
+        '2': false,
+        '3': false,
+        '4': false,
+        '5': false,
+      }
     default:
       return state
   }

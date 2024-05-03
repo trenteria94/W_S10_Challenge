@@ -13,8 +13,8 @@ export default function OrderList () {
       <h2>Pizza Orders</h2>
       <ol>
         {orders
-          ?.filter((order, orders) => {
-            if (filter === 'All') {
+          ?.filter((order, index, orders) => {
+            if (filter == 'All') {
               return orders
             } else {
             return order.size === filter}
