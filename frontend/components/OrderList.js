@@ -8,9 +8,6 @@ export default function OrderList () {
   const { data: orders } = useGetOrdersQuery()
   const filter = useSelector(state => state.filterState.filter)
   const dispatch = useDispatch()
-  const changeFilter = () => {
-    
-  }
   return (
     <div id="orderList">
       <h2>Pizza Orders</h2>
@@ -42,7 +39,7 @@ export default function OrderList () {
       <div id="sizeFilters">
         Filter by size:
         {
-          ['All', 'S', 'M', 'L'].map((size, index) => {
+          ['All', 'S', 'M', 'L'].map((size) => {
             const className = `button-filter${size === filter ? ' active' : ''}`
             
             return <button
