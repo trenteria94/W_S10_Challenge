@@ -28,10 +28,13 @@ const reducer = (state, action) => {
 export default function PizzaForm() {
 
   const [state, dispatch] = useReducer(reducer, initialFormState)
-  const [createOrder] = useCreateOrderMutation()
+  const [createOrder, { error: creationError, isLoading: orderLoading }] = useCreateOrderMutation()
 
   const onChange = ({ target: { name, value, type, checked } }) => {
     dispatch({ type: CHANGE_INPUT, payload: { name, value: type === 'checkbox' ? checked : value } })
+  }
+  const resetForm = () => {
+    dispatch({ type: RESET_FORM })
   }
 
 
@@ -46,13 +49,21 @@ export default function PizzaForm() {
     }
     const { fullName, size } = state
     createOrder({ fullName, size, toppings: toppingsArray})
+      .unwrap()
+      .then(data => {
+        console.log(data)
+        resetForm()
+      })
+      .catch(err =>{
+        console.log(err)
+      })
   }
 
   return (
     <form onSubmit={createNewOrder}>
       <h2>Pizza Form</h2>
-      {true && <div className='pending'>Order in progress...</div>}
-      {true && <div className='failure'>Order failed: fullName is required</div>}
+      {orderLoading && <div className='pending'>Order in progress...</div>}
+      {creationError && <div className='failure'>Order failed: {creationError.data.message}</div>}
 
       <div className="input-group">
         <div>

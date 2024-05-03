@@ -1,15 +1,28 @@
 import React from 'react'
 import { useGetOrdersQuery } from '../state/pizzaApi'
+import { useSelector, useDispatch } from 'react-redux'
+import { setFilter } from '../state/filterSlice'
 
 export default function OrderList () {
+
   const { data: orders } = useGetOrdersQuery()
-  
+  const filter = useSelector(state => state.filterState.filter)
+  const dispatch = useDispatch()
+  const changeFilter = () => {
+    
+  }
   return (
     <div id="orderList">
       <h2>Pizza Orders</h2>
       <ol>
-        {
-           orders && orders.map((order) => {
+        {orders
+          ?.filter((order, orders) => {
+            if (filter === 'All') {
+              return orders
+            } else {
+            return order.size === filter}
+          })
+           .map((order) => {
             return (
               <li key={order.id}>
                 <div>
@@ -29,9 +42,11 @@ export default function OrderList () {
       <div id="sizeFilters">
         Filter by size:
         {
-          ['All', 'S', 'M', 'L'].map(size => {
-            const className = `button-filter${size === 'All' ? ' active' : ''}`
+          ['All', 'S', 'M', 'L'].map((size, index) => {
+            const className = `button-filter${size === filter ? ' active' : ''}`
+            
             return <button
+              onClick={() => {dispatch(setFilter(size))}}
               data-testid={`filterBtn${size}`}
               className={className}
               key={size}>{size}</button>

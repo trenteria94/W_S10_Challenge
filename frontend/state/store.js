@@ -1,13 +1,10 @@
-
 import { configureStore } from '@reduxjs/toolkit'
 import { pizzaApi } from './pizzaApi'
-
-const exampleReducer = (state = { count: 0 }) => {
-  return state
-}
+import filterReducer from './filterSlice'
 
 export const resetStore = () => configureStore({
   reducer: {
+    filterState: filterReducer,
     [pizzaApi.reducerPath]: pizzaApi.reducer,
     // add your reducer(s) here
   },
